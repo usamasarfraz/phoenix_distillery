@@ -12,7 +12,7 @@
      {modules,
          ['Elixir.PhoenixDistillery','Elixir.PhoenixDistillery.Application',
           'Elixir.PhoenixDistillery.Mailer','Elixir.PhoenixDistillery.Test',
-          'Elixir.PhoenixDistilleryWeb',
+          'Elixir.PhoenixDistillery.Test2','Elixir.PhoenixDistilleryWeb',
           'Elixir.PhoenixDistilleryWeb.CoreComponents',
           'Elixir.PhoenixDistilleryWeb.Endpoint',
           'Elixir.PhoenixDistilleryWeb.ErrorHTML',
@@ -24,5 +24,5 @@
           'Elixir.PhoenixDistilleryWeb.Router',
           'Elixir.PhoenixDistilleryWeb.Telemetry']},
      {registered,[]},
-     {vsn,"0.1.1"},
+     {vsn,"0.1.2"},
      {mod,{'Elixir.PhoenixDistillery.Application',[]}}]}.
