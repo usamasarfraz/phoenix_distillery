@@ -23,5 +23,5 @@
           'Elixir.PhoenixDistilleryWeb.Router',
           'Elixir.PhoenixDistilleryWeb.Telemetry']},
      {registered,[]},
-     {vsn,"0.1.0"},
+     {vsn,"0.1.1"},
      {mod,{'Elixir.PhoenixDistillery.Application',[]}}]}.

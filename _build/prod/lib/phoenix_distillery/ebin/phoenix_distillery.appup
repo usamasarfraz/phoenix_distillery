@@ -1,0 +1,7 @@
+{
+    "0.1.1",
+    [{"0.1.0", [
+        {update, 'Elixir.PhoenixDistillery.Test'}
+    ]}],
+    [{"0.1.0", []}]
+}.
