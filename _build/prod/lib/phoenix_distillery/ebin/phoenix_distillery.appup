@@ -1,7 +1,0 @@
-{
-    "0.1.2",
-    [{"0.1.1", [
-        {add_module, 'Elixir.PhoenixDistillery.Test2'}
-    ]}],
-    [{"0.1.1", []}]
-}.

@@ -11,7 +11,7 @@ if not defined RELEASE_VSN (for /f "tokens=1,2" %%K in ('type "!RELEASE_ROOT!\re
 if not defined RELEASE_PROG (set RELEASE_PROG=%~nx0)
 set RELEASE_COMMAND=%~1
 set REL_VSN_DIR=!RELEASE_ROOT!\releases\!RELEASE_VSN!
-call "!REL_VSN_DIR!\env.bat" %*
+call "!REL_VSN_DIR!\env.bat"
 
 if not defined RELEASE_COOKIE (set /p RELEASE_COOKIE=<!RELEASE_ROOT!\releases\COOKIE)
 if not defined RELEASE_MODE (set RELEASE_MODE=embedded)
@@ -25,7 +25,7 @@ if not defined RELEASE_BOOT_SCRIPT_CLEAN (set RELEASE_BOOT_SCRIPT_CLEAN=start_cl
 if not defined RELEASE_SYS_CONFIG (set RELEASE_SYS_CONFIG=!REL_VSN_DIR!\sys)
 
 if "%~1" == "start" (set "REL_EXEC=elixir" && set "REL_EXTRA=--no-halt" && set "REL_GOTO=start")
-if "%~1" == "start_iex" (set "REL_EXEC=iex" && set "REL_EXTRA=" && set "REL_GOTO=start")
+if "%~1" == "start_iex" (set "REL_EXEC=iex" && set "REL_EXTRA=--werl" && set "REL_GOTO=start")
 if "%~1" == "install" (set "REL_GOTO=install")
 if "%~1" == "eval" (
   if "%~2" == "" (
@@ -100,21 +100,13 @@ if "!RELEASE_DISTRIBUTION!" == "none" (
 goto end
 
 :eval
-set EVAL=%~2
-shift
-:loop
-shift
-if not "%1"=="" (
-  set args=%args% %1
-  goto :loop
-)
 "!REL_VSN_DIR!\elixir.bat" ^
-  --eval "!EVAL!" ^
+  --eval "%~2" ^
   --cookie "!RELEASE_COOKIE!" ^
   --erl-config "!RELEASE_SYS_CONFIG!" ^
   --boot "!REL_VSN_DIR!\!RELEASE_BOOT_SCRIPT_CLEAN!" ^
   --boot-var RELEASE_LIB "!RELEASE_ROOT!\lib" ^
-  --vm-args "!RELEASE_VM_ARGS!" -- %args%
+  --vm-args "!RELEASE_VM_ARGS!"
 goto end
 
 :remote
@@ -125,7 +117,7 @@ if "!RELEASE_DISTRIBUTION!" == "none" (
 )
 
 "!REL_VSN_DIR!\iex.bat" ^
-   --hidden --cookie "!RELEASE_COOKIE!" ^
+  --werl --hidden --cookie "!RELEASE_COOKIE!" ^
   !RELEASE_DISTRIBUTION_FLAG! ^
   --boot "!REL_VSN_DIR!\!RELEASE_BOOT_SCRIPT_CLEAN!" ^
   --boot-var RELEASE_LIB "!RELEASE_ROOT!\lib" ^
@@ -137,7 +129,7 @@ goto end
 if "!RELEASE_DISTRIBUTION!" == "none" (
   set RELEASE_DISTRIBUTION_FLAG=
 ) else (
-  set RELEASE_DISTRIBUTION_FLAG=--!RELEASE_DISTRIBUTION! "rem-!RANDOM!-!RELEASE_NODE!"
+  set RELEASE_DISTRIBUTION_FLAG=--!RELEASE_DISTRIBUTION! "rpc-!RANDOM!-!RELEASE_NODE!"
 )
 
 "!REL_VSN_DIR!\elixir.bat" ^
@@ -168,7 +160,8 @@ if "!RELEASE_DISTRIBUTION!" == "none" (
 "!ERLSRV!" add "!RELEASE_NAME!_!RELEASE_NAME!" ^
   -!RELEASE_DISTRIBUTION! "!RELEASE_NODE!" ^
   -env RELEASE_ROOT="!RELEASE_ROOT!" -env RELEASE_NAME="!RELEASE_NAME!" -env RELEASE_VSN="!RELEASE_VSN!" -env RELEASE_MODE="!RELEASE_MODE!" -env RELEASE_COOKIE="!RELEASE_COOKIE!" -env RELEASE_NODE="!RELEASE_NODE!" -env RELEASE_VM_ARGS="!RELEASE_VM_ARGS!" -env RELEASE_TMP="!RELEASE_TMP!" -env RELEASE_SYS_CONFIG="!RELEASE_SYS_CONFIG!" ^
-  -args "-setcookie !RELEASE_COOKIE! -config ""!RELEASE_SYS_CONFIG!"" -mode !RELEASE_MODE! -boot ""!REL_VSN_DIR!\start"" -boot_var RELEASE_LIB ""!RELEASE_ROOT!\lib"" -args_file ""!REL_VSN_DIR!\vm.args"""
+  -args "-setcookie !RELEASE_COOKIE! -config !RELEASE_SYS_CONFIG! -mode !RELEASE_MODE! -boot !REL_VSN_DIR!\start -boot_var RELEASE_LIB !RELEASE_ROOT!\lib -args_file !REL_VSN_DIR!\vm.args"
+
 if %ERRORLEVEL% EQU 0 (
   echo Service installed but not started. From now on, it must be started and stopped by erlsrv:
   echo.

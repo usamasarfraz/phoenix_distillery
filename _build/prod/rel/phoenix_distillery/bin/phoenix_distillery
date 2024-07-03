@@ -119,15 +119,14 @@ case $1 in
       echo "ERROR: EVAL expects an expression as argument" >&2
       exit 1
     fi
-    script="$2"
-    shift 2
+
     export_release_sys_config
     exec "$REL_VSN_DIR/elixir" \
        --cookie "$RELEASE_COOKIE" \
        --erl-config "$RELEASE_SYS_CONFIG" \
        --boot "$REL_VSN_DIR/$RELEASE_BOOT_SCRIPT_CLEAN" \
        --boot-var RELEASE_LIB "$RELEASE_ROOT/lib" \
-       --vm-args "$RELEASE_VM_ARGS" --eval "$script" -- "$@"
+       --vm-args "$RELEASE_VM_ARGS" --eval "$2"
     ;;
 
   remote)

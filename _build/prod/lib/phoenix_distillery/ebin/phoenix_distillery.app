@@ -2,7 +2,6 @@
     [{compile_env,
          [{phoenix_distillery,['Elixir.PhoenixDistilleryWeb.Gettext'],error},
           {phoenix_distillery,[dev_routes],error}]},
-     {optional_applications,[]},
      {applications,
          [kernel,stdlib,elixir,logger,runtime_tools,phoenix,phoenix_html,
           phoenix_live_view,phoenix_live_dashboard,swoosh,finch,
@@ -24,5 +23,5 @@
           'Elixir.PhoenixDistilleryWeb.Router',
           'Elixir.PhoenixDistilleryWeb.Telemetry']},
      {registered,[]},
-     {vsn,"0.1.2"},
+     {vsn,"0.1.0"},
      {mod,{'Elixir.PhoenixDistillery.Application',[]}}]}.
